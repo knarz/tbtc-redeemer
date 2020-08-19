@@ -1,0 +1,19 @@
+{
+  "name": "tbtc-redeemer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+	"type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+		"@keep-network/keep-ecdsa": "1.2.0-rc.1",
+		"@keep-network/tbtc": "1.1.0-rc.0",
+    "bn.js": "^5.1.2",
+    "ethers": "^5.0.7",
+    "tbtc.js": "^0.6.3"
+  }
+}
