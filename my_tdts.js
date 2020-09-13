@@ -62,16 +62,16 @@ async function main() {
 		const activeTDTs = new Array();
 		for (let tokenID of tokenIDs) {
 			const d = new ethers.Contract(tokenID, Deposit.abi, wallet);
-			const depositState = await d.getCurrentState();
+			const depositState = await d.currentState();
 			console.log(`[${tokenID}] in state ${states[depositState]} @ ${ethers.utils.formatEther((await d.lotSizeTbtc()).toString())} tBTC`);
 			if (depositState.toNumber() === 1) { // Check if we can dissolve this.
 				try {
 					console.log(`try to call notifySignerSetupFailure`);
-					const tx = await d.notifySignerSetupFailure();
+					const tx = await d.notifySignerSetupFailed();
 					await tx.wait();
 					console.log(`success`);
 				} catch (err) {
-					console.log(`failed to call notifySignerSetupFailure`);
+					console.log(`failed to call notifySignerSetupFailed`);
 				}
 			} else if (depositState.toNumber() === 5) {
 				// Check if withdrawal request has timed out.
@@ -85,7 +85,7 @@ async function main() {
 				}
 			}
 
-			const w = await d.getWithdrawAllowance();
+			const w = await d.withdrawableAmount();
 			if (w.gt(0)) {
 				console.log(`we can withdraw: ${ethers.utils.formatEther(w.toString())}`)
 				const wTx = await d.withdrawFunds();
